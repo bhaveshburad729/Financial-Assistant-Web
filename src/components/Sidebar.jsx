@@ -1,106 +1,94 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
-  ChevronDownIcon,
+  UserCircleIcon,
+  CalculatorIcon,
+  DocumentIcon,
+  BellIcon,
+  PrinterIcon,
+  ArrowLeftOnRectangleIcon,
+  ChevronLeftIcon,
   ChevronRightIcon,
-  BookOpenIcon,
-  CurrencyDollarIcon,
-  BuildingOfficeIcon,
-  UserGroupIcon,
-  ChartBarIcon,
-  DocumentTextIcon,
 } from '@heroicons/react/24/outline';
 
 const Sidebar = () => {
-  const [expandedMenus, setExpandedMenus] = useState({});
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const location = useLocation();
 
-  const toggleMenu = (menuId) => {
-    setExpandedMenus(prev => ({
-      ...prev,
-      [menuId]: !prev[menuId]
-    }));
+  const isActive = (path) => {
+    return location.pathname === path;
   };
 
   const menuItems = [
-    {
-      id: 'learning',
-      title: 'Learning',
-      icon: BookOpenIcon,
-      subItems: [
-        { name: 'Investment Basics', path: '/learning/basics' },
-        { name: 'Stock Market', path: '/learning/stocks' },
-        { name: 'Mutual Funds', path: '/learning/mutual-funds' },
-        { name: 'Cryptocurrency', path: '/learning/crypto' },
-      ]
-    },
-    {
-      id: 'funding',
-      title: 'Funding',
-      icon: CurrencyDollarIcon,
-      subItems: [
-        { name: 'Investment Options', path: '/funding/options' },
-        { name: 'Portfolio Management', path: '/funding/portfolio' },
-        { name: 'Risk Assessment', path: '/funding/risk' },
-      ]
-    },
-    {
-      id: 'schemes',
-      title: 'Government Schemes',
-      icon: BuildingOfficeIcon,
-      subItems: [
-        { name: 'Tax Benefits', path: '/schemes/tax' },
-        { name: 'Investment Schemes', path: '/schemes/investment' },
-        { name: 'Insurance Schemes', path: '/schemes/insurance' },
-      ]
-    },
-    {
-      id: 'analytics',
-      title: 'Analytics',
-      icon: ChartBarIcon,
-      subItems: [
-        { name: 'Market Trends', path: '/analytics/trends' },
-        { name: 'Performance Metrics', path: '/analytics/metrics' },
-        { name: 'Reports', path: '/analytics/reports' },
-      ]
-    },
+    { name: 'Profile', path: '/profile', icon: UserCircleIcon },
+    { name: 'Tax Calculator', path: '/tax-calculator', icon: CalculatorIcon },
+    { name: 'Document Compressor', path: '/document-compressor', icon: DocumentIcon },
+    { name: 'Notifications', path: '/notifications', icon: BellIcon },
+    { name: 'Printable Reports', path: '/reports', icon: PrinterIcon },
   ];
 
+  const handleLogout = () => {
+    // Add logout logic here
+    console.log('Logging out...');
+  };
+
   return (
-    <div className="w-64 bg-white dark:bg-gray-800 shadow-lg h-screen fixed left-0 top-16 overflow-y-auto">
-      <div className="p-4">
-        {menuItems.map((item) => (
-          <div key={item.id} className="mb-2">
-            <button
-              onClick={() => toggleMenu(item.id)}
-              className="w-full flex items-center justify-between p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
-            >
-              <div className="flex items-center">
-                <item.icon className="h-5 w-5 mr-2" />
-                <span>{item.title}</span>
-              </div>
-              {expandedMenus[item.id] ? (
-                <ChevronDownIcon className="h-5 w-5" />
-              ) : (
-                <ChevronRightIcon className="h-5 w-5" />
-              )}
-            </button>
-            {expandedMenus[item.id] && (
-              <div className="ml-4 mt-2 space-y-1">
-                {item.subItems.map((subItem) => (
-                  <Link
-                    key={subItem.name}
-                    to={subItem.path}
-                    className="block p-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
-                  >
-                    {subItem.name}
-                  </Link>
-                ))}
-              </div>
-            )}
+    <aside className={`sidebar ${isCollapsed ? 'sidebar-collapsed' : ''}`}>
+      <div className="sidebar-header">
+        <div className="sidebar-profile">
+          <div className="profile-image">
+            <UserCircleIcon className="profile-icon" />
           </div>
-        ))}
+          {!isCollapsed && (
+            <div className="profile-info">
+              <h3 className="profile-name">John Doe</h3>
+              <p className="profile-level">Intermediate</p>
+              <p className="profile-investments">₹5,00,000</p>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+
+      <nav className="sidebar-nav">
+        <ul className="sidebar-menu">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <li key={item.name} className="sidebar-item">
+                <Link
+                  to={item.path}
+                  className={`sidebar-link ${isActive(item.path) ? 'sidebar-link-active' : ''}`}
+                >
+                  <Icon className="sidebar-icon" />
+                  {!isCollapsed && <span>{item.name}</span>}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+
+      <div className="sidebar-footer">
+        <button 
+          className="sidebar-toggle"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          {isCollapsed ? (
+            <ChevronRightIcon className="toggle-icon" />
+          ) : (
+            <ChevronLeftIcon className="toggle-icon" />
+          )}
+        </button>
+        <button 
+          className="sidebar-logout"
+          onClick={handleLogout}
+        >
+          <ArrowLeftOnRectangleIcon className="logout-icon" />
+          {!isCollapsed && <span>Logout</span>}
+        </button>
+      </div>
+    </aside>
   );
 };
 
