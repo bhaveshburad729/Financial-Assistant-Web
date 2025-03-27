@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   Bars3Icon, 
   XMarkIcon, 
   SunIcon, 
   MoonIcon,
-  ChevronDownIcon
+  ChevronDownIcon,
+  ChartBarIcon,
+  CurrencyDollarIcon,
+  BanknotesIcon,
+  ChartPieIcon
 } from '@heroicons/react/24/outline';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isFundingOpen, setIsFundingOpen] = useState(false);
+  const location = useLocation();
 
   const toggleDarkMode = () => {
     setIsDark(!isDark);
     document.documentElement.classList.toggle('dark');
+  };
+
+  const toggleFundingDropdown = () => {
+    setIsFundingOpen(!isFundingOpen);
   };
 
   return (
@@ -30,29 +40,73 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <div className="navbar-desktop">
           <div className="navbar-links">
-            <Link to="/" className="navbar-link">Home</Link>
-            <Link to="/learning" className="navbar-link">Learning</Link>
-            <div className="navbar-dropdown">
+            <Link 
+              to="/" 
+              className={`navbar-link ${location.pathname === '/' ? 'active' : ''}`}
+            >
+              Home
+            </Link>
+            <Link 
+              to="/learning" 
+              className={`navbar-link ${location.pathname === '/learning' ? 'active' : ''}`}
+            >
+              Learning
+            </Link>
+            
+            {/* Funding Dropdown */}
+            <div className="dropdown-container">
               <button 
-                className="navbar-dropdown-button"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="dropdown-button"
+                onClick={toggleFundingDropdown}
               >
                 Funding
-                <ChevronDownIcon className="navbar-dropdown-icon" />
+                <svg 
+                  className={`dropdown-icon ${isFundingOpen ? 'rotate-180' : ''}`}
+                  xmlns="http://www.w3.org/2000/svg" 
+                  viewBox="0 0 20 20" 
+                  fill="currentColor"
+                >
+                  <path 
+                    fillRule="evenodd" 
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
+                    clipRule="evenodd" 
+                  />
+                </svg>
               </button>
-              {isDropdownOpen && (
-                <div className="navbar-dropdown-menu">
-                  <Link to="/funding/mutual-funds" className="navbar-dropdown-item">
+              
+              {isFundingOpen && (
+                <div className="dropdown-menu">
+                  <Link 
+                    to="/mutual-funds" 
+                    className="dropdown-item"
+                    onClick={() => setIsFundingOpen(false)}
+                  >
+                    <ChartBarIcon className="dropdown-item-icon" />
                     Mutual Funds
                   </Link>
-                  <Link to="/funding/sips" className="navbar-dropdown-item">
+                  <Link 
+                    to="/sips" 
+                    className="dropdown-item"
+                    onClick={() => setIsFundingOpen(false)}
+                  >
+                    <CurrencyDollarIcon className="dropdown-item-icon" />
                     SIPs
                   </Link>
-                  <Link to="/funding/stocks" className="navbar-dropdown-item">
-                    Stocks
-                  </Link>
-                  <Link to="/funding/gold-bonds" className="navbar-dropdown-item">
+                  <Link 
+                    to="/gold-bonds" 
+                    className="dropdown-item"
+                    onClick={() => setIsFundingOpen(false)}
+                  >
+                    <BanknotesIcon className="dropdown-item-icon" />
                     Gold Bonds
+                  </Link>
+                  <Link 
+                    to="/stocks" 
+                    className="dropdown-item"
+                    onClick={() => setIsFundingOpen(false)}
+                  >
+                    <ChartPieIcon className="dropdown-item-icon" />
+                    Stocks
                   </Link>
                 </div>
               )}
@@ -98,33 +152,88 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="navbar-mobile-menu">
-          <Link to="/" className="navbar-mobile-link">Home</Link>
-          <Link to="/learning" className="navbar-mobile-link">Learning</Link>
+          <Link 
+            to="/" 
+            className="navbar-mobile-link"
+            onClick={() => setIsOpen(false)}
+          >
+            Home
+          </Link>
+          <Link 
+            to="/learning" 
+            className="navbar-mobile-link"
+            onClick={() => setIsOpen(false)}
+          >
+            Learning
+          </Link>
+          
+          {/* Mobile Funding Dropdown */}
           <div className="navbar-mobile-dropdown">
             <button 
               className="navbar-mobile-dropdown-button"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              onClick={toggleFundingDropdown}
             >
               Funding
-              <ChevronDownIcon className="navbar-dropdown-icon" />
+              <svg 
+                className={`dropdown-icon ${isFundingOpen ? 'rotate-180' : ''}`}
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 20 20" 
+                fill="currentColor"
+              >
+                <path 
+                  fillRule="evenodd" 
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
+                  clipRule="evenodd" 
+                />
+              </svg>
             </button>
-            {isDropdownOpen && (
+            
+            {isFundingOpen && (
               <div className="navbar-mobile-dropdown-menu">
-                <Link to="/funding/mutual-funds" className="navbar-mobile-dropdown-item">
+                <Link 
+                  to="/mutual-funds" 
+                  className="navbar-mobile-dropdown-item"
+                  onClick={() => {
+                    setIsFundingOpen(false);
+                    setIsOpen(false);
+                  }}
+                >
                   Mutual Funds
                 </Link>
-                <Link to="/funding/sips" className="navbar-mobile-dropdown-item">
+                <Link 
+                  to="/sips" 
+                  className="navbar-mobile-dropdown-item"
+                  onClick={() => {
+                    setIsFundingOpen(false);
+                    setIsOpen(false);
+                  }}
+                >
                   SIPs
                 </Link>
-                <Link to="/funding/stocks" className="navbar-mobile-dropdown-item">
-                  Stocks
-                </Link>
-                <Link to="/funding/gold-bonds" className="navbar-mobile-dropdown-item">
+                <Link 
+                  to="/gold-bonds" 
+                  className="navbar-mobile-dropdown-item"
+                  onClick={() => {
+                    setIsFundingOpen(false);
+                    setIsOpen(false);
+                  }}
+                >
                   Gold Bonds
+                </Link>
+                <Link 
+                  to="/stocks" 
+                  className="navbar-mobile-dropdown-item"
+                  onClick={() => {
+                    setIsFundingOpen(false);
+                    setIsOpen(false);
+                  }}
+                >
+                  Stocks
                 </Link>
               </div>
             )}
           </div>
+
           <Link to="/schemes" className="navbar-mobile-link">Government Schemes</Link>
           <Link to="/contact" className="navbar-mobile-link">Contact Us</Link>
           <div className="navbar-mobile-actions">
