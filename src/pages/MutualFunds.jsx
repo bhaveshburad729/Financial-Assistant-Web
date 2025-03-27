@@ -1,13 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import '../styles/mutual-funds.css';
+import '../styles/animations.css';
 import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 
+// Using placeholder images instead of local files
+const mutualFunds = [
+  {
+    id: 1,
+    title: 'Equity Growth Fund',
+    description: 'Invests primarily in stocks with high growth potential. Suitable for long-term wealth creation.',
+    image: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=60',
+    returns: '12.5%',
+    risk: 'High',
+    minInvestment: '₹5,000',
+    lockIn: '3 years'
+  },
+  {
+    id: 2,
+    title: 'Debt Income Fund',
+    description: 'Focuses on fixed-income securities. Provides stable returns with lower risk.',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop&q=60',
+    returns: '7.2%',
+    risk: 'Low',
+    minInvestment: '₹1,000',
+    lockIn: '1 year'
+  },
+  {
+    id: 3,
+    title: 'Balanced Fund',
+    description: 'Balanced portfolio of equity and debt instruments. Moderate risk with good returns.',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=60',
+    returns: '9.8%',
+    risk: 'Medium',
+    minInvestment: '₹2,000',
+    lockIn: '2 years'
+  },
+  {
+    id: 4,
+    title: 'Liquid Fund',
+    description: 'Invests in short-term debt instruments. High liquidity with low risk.',
+    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&auto=format&fit=crop&q=60',
+    returns: '5.5%',
+    risk: 'Low',
+    minInvestment: '₹500',
+    lockIn: 'None'
+  }
+];
+
 const MutualFunds = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [images, setImages] = useState({
-    introduction: "/api/placeholder/600/400",
-    howItWorks: "/api/placeholder/600/400",
-    typesOfFunds: "/api/placeholder/600/400",
-    benefits: "/api/placeholder/600/400"
+    introduction: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=60",
+    howItWorks: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop&q=60",
+    typesOfFunds: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=60",
+    benefits: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&auto=format&fit=crop&q=60"
   });
+
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="mutual-funds-loading">
+        <div className="loading-spinner"></div>
+      </div>
+    );
+  }
 
   const handleImageUpload = (section) => {
     // Implement image upload logic
@@ -17,6 +82,53 @@ const MutualFunds = () => {
 
   return (
     <div className="mutual-funds-container">
+      <div className="mutual-funds-header">
+        <h1 className="mutual-funds-title">Mutual Funds</h1>
+        <p className="mutual-funds-subtitle">
+          Discover a wide range of mutual funds tailored to your investment goals and risk appetite.
+          Start your investment journey with our carefully curated selection.
+        </p>
+      </div>
+
+      <div className="mutual-funds-grid">
+        {mutualFunds.map((fund) => (
+          <div key={fund.id} className="mutual-fund-card">
+            <img 
+              src={fund.image} 
+              alt={fund.title}
+              className="mutual-fund-image"
+            />
+            <div className="mutual-fund-content">
+              <h2 className="mutual-fund-title">{fund.title}</h2>
+              <p className="mutual-fund-description">{fund.description}</p>
+              
+              <div className="mutual-fund-stats">
+                <div className="stat-item">
+                  <div className="stat-value">{fund.returns}</div>
+                  <div className="stat-label">Annual Returns</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-value">{fund.risk}</div>
+                  <div className="stat-label">Risk Level</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-value">{fund.minInvestment}</div>
+                  <div className="stat-label">Min Investment</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-value">{fund.lockIn}</div>
+                  <div className="stat-label">Lock-in Period</div>
+                </div>
+              </div>
+
+              <button className="mutual-fund-button ripple">
+                Invest Now
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Introduction Card */}
       <div className="card">
         <div className="card-image-container">

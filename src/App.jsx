@@ -4,6 +4,8 @@ import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Home from './pages/Home';
 import Learning from './pages/Learning';
+import Funding from './pages/Funding';
+import Schemes from './pages/Schemes';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import MutualFunds from './pages/MutualFunds';
@@ -35,6 +37,8 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/learning" element={<Learning />} />
+                  <Route path="/funding" element={<Funding />} />
+                  <Route path="/schemes" element={<Schemes />} />
                   <Route path="/mutual-funds" element={<MutualFunds />} />
                   <Route path="/sips" element={<SIPs />} />
                   <Route path="/gold-bonds" element={<GoldBonds />} />

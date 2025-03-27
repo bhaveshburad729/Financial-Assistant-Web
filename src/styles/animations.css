@@ -1,0 +1,306 @@
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide In Animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Scale In Animation */
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Shake Animation */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Rotate Animation */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Apply animations to components */
+.auth-container {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.auth-card {
+  animation: scaleIn 0.5s ease-out;
+}
+
+.auth-title {
+  animation: slideIn 0.5s ease-out;
+}
+
+.auth-subtitle {
+  animation: slideIn 0.5s ease-out 0.2s backwards;
+}
+
+.form-group {
+  animation: fadeIn 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.3s; }
+.form-group:nth-child(2) { animation-delay: 0.4s; }
+.form-group:nth-child(3) { animation-delay: 0.5s; }
+.form-group:nth-child(4) { animation-delay: 0.6s; }
+.form-group:nth-child(5) { animation-delay: 0.7s; }
+
+.auth-button {
+  animation: fadeIn 0.5s ease-out 0.8s backwards;
+  transition: all 0.3s ease;
+}
+
+.auth-button:hover {
+  animation: pulse 1s infinite;
+}
+
+.auth-button:active {
+  animation: scaleIn 0.2s ease-out;
+}
+
+.auth-error {
+  animation: shake 0.5s ease-out;
+}
+
+.auth-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.auth-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.auth-link:hover::after {
+  width: 100%;
+}
+
+/* Navbar animations */
+.navbar {
+  animation: slideIn 0.5s ease-out;
+}
+
+.navbar-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.navbar-link:hover::after {
+  width: 100%;
+}
+
+.navbar-icon {
+  transition: transform 0.3s ease;
+}
+
+.navbar-link:hover .navbar-icon {
+  animation: bounce 1s infinite;
+}
+
+/* Modal animations */
+.modal-overlay {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  animation: scaleIn 0.3s ease-out;
+}
+
+/* Experience buttons animation */
+.experience-button {
+  transition: all 0.3s ease;
+}
+
+.experience-button:hover {
+  animation: pulse 1s infinite;
+}
+
+.experience-icon {
+  animation: bounce 2s infinite;
+}
+
+/* Loading animation */
+.loading {
+  animation: rotate 1s linear infinite;
+}
+
+/* Form input focus animation */
+.form-input:focus {
+  animation: pulse 0.3s ease-out;
+}
+
+/* Error message animation */
+.error-message {
+  animation: shake 0.5s ease-out;
+}
+
+/* Mobile menu animation */
+.navbar-mobile-menu {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Theme toggle animation */
+.navbar-theme-toggle {
+  transition: transform 0.3s ease;
+}
+
+.navbar-theme-toggle:hover {
+  animation: rotate 0.5s ease-out;
+}
+
+/* Dropdown animation */
+.dropdown-menu {
+  animation: scaleIn 0.2s ease-out;
+}
+
+/* Page transition animations */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Success message animation */
+.success-message {
+  animation: scaleIn 0.3s ease-out;
+}
+
+/* Loading spinner animation */
+.spinner {
+  animation: rotate 1s linear infinite;
+}
+
+/* Hover card effect */
+.hover-card {
+  transition: all 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Button ripple effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 1s;
+}
+
+.ripple:active::after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
+} 
