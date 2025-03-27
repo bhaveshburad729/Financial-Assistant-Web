@@ -18,6 +18,10 @@ import TaxCalculator from './pages/TaxCalculator';
 import DocumentCompressor from './pages/DocumentCompressor';
 import NotificationsPage from './pages/Notifications';
 import ProfilePage from './pages/Profile';
+import Chatbot from './components/Chatbot';
+import './styles/App.css';
+import './styles/animations.css';
+import './styles/chatbot.css';
 
 function App() {
   return (
@@ -52,6 +56,7 @@ function App() {
                 </Routes>
               </main>
             </div>
+            <Chatbot />
           </div>
         } />
       </Routes>

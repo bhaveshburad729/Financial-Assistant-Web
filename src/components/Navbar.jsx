@@ -37,9 +37,7 @@ const Navbar = () => {
 
   const navigation = [
     { name: 'Home', href: '/', icon: HomeIcon },
-    { name: 'Learning', href: '/learning', icon: AcademicCapIcon },
-    { name: 'Funding', href: '/funding', icon: CurrencyDollarIcon },
-    { name: 'Schemes', href: '/schemes', icon: DocumentTextIcon },
+    { name: 'Learning', href: '/learning', icon: AcademicCapIcon }
   ];
 
   return (
@@ -71,7 +69,7 @@ const Navbar = () => {
                 className="dropdown-button ripple"
                 onClick={toggleFundingDropdown}
               >
-                Funding
+                Funding & Schemes
                 <ChevronDownIcon 
                   className={`dropdown-icon ${isFundingOpen ? 'rotate-180' : ''}`}
                 />
@@ -122,11 +120,6 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-            <Link to="/government-schemes" className="navbar-link">Government Schemes</Link>
-            <Link to="/contact" className="navbar-link">
-              <ChatBubbleLeftIcon className="navbar-icon" />
-              Contact Us
-            </Link>
           </div>
 
           <div className="navbar-actions">
@@ -190,88 +183,71 @@ const Navbar = () => {
               Contact Us
             </Link>
             
-            <div className="navbar-mobile-actions">
-              <Link 
-                to="/login" 
-                className="auth-button login"
-                onClick={() => setIsOpen(false)}
+            {/* Mobile Funding Dropdown */}
+            <div className="navbar-mobile-dropdown">
+              <button 
+                className="navbar-mobile-dropdown-button"
+                onClick={toggleFundingDropdown}
               >
-                Login
-              </Link>
-              <Link 
-                to="/signup" 
-                className="auth-button signup"
-                onClick={() => setIsOpen(false)}
-              >
-                Sign Up
-              </Link>
+                Funding & Schemes
+                <ChevronDownIcon className={`dropdown-icon ${isFundingOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {isFundingOpen && (
+                <div className="navbar-mobile-dropdown-menu">
+                  <Link 
+                    to="/mutual-funds" 
+                    className="navbar-mobile-dropdown-item"
+                    onClick={() => {
+                      setIsFundingOpen(false);
+                      setIsOpen(false);
+                    }}
+                  >
+                    Mutual Funds
+                  </Link>
+                  <Link 
+                    to="/sips" 
+                    className="navbar-mobile-dropdown-item"
+                    onClick={() => {
+                      setIsFundingOpen(false);
+                      setIsOpen(false);
+                    }}
+                  >
+                    SIPs
+                  </Link>
+                  <Link 
+                    to="/gold-bonds" 
+                    className="navbar-mobile-dropdown-item"
+                    onClick={() => {
+                      setIsFundingOpen(false);
+                      setIsOpen(false);
+                    }}
+                  >
+                    Gold Bonds
+                  </Link>
+                  <Link 
+                    to="/stocks" 
+                    className="navbar-mobile-dropdown-item"
+                    onClick={() => {
+                      setIsFundingOpen(false);
+                      setIsOpen(false);
+                    }}
+                  >
+                    Stocks
+                  </Link>
+                  <Link 
+                    to="/government-schemes" 
+                    className="navbar-mobile-dropdown-item"
+                    onClick={() => {
+                      setIsFundingOpen(false);
+                      setIsOpen(false);
+                    }}
+                  >
+                    Government Schemes
+                  </Link>
+                </div>
+              )}
             </div>
-          </div>
-          
-          {/* Mobile Funding Dropdown */}
-          <div className="navbar-mobile-dropdown">
-            <button 
-              className="navbar-mobile-dropdown-button"
-              onClick={toggleFundingDropdown}
-            >
-              Funding
-              <ChevronDownIcon className={`dropdown-icon ${isFundingOpen ? 'rotate-180' : ''}`} />
-            </button>
-            
-            {isFundingOpen && (
-              <div className="navbar-mobile-dropdown-menu">
-                <Link 
-                  to="/mutual-funds" 
-                  className="navbar-mobile-dropdown-item"
-                  onClick={() => {
-                    setIsFundingOpen(false);
-                    setIsOpen(false);
-                  }}
-                >
-                  Mutual Funds
-                </Link>
-                <Link 
-                  to="/sips" 
-                  className="navbar-mobile-dropdown-item"
-                  onClick={() => {
-                    setIsFundingOpen(false);
-                    setIsOpen(false);
-                  }}
-                >
-                  SIPs
-                </Link>
-                <Link 
-                  to="/gold-bonds" 
-                  className="navbar-mobile-dropdown-item"
-                  onClick={() => {
-                    setIsFundingOpen(false);
-                    setIsOpen(false);
-                  }}
-                >
-                  Gold Bonds
-                </Link>
-                <Link 
-                  to="/stocks" 
-                  className="navbar-mobile-dropdown-item"
-                  onClick={() => {
-                    setIsFundingOpen(false);
-                    setIsOpen(false);
-                  }}
-                >
-                  Stocks
-                </Link>
-                <Link 
-                  to="/government-schemes" 
-                  className="navbar-mobile-dropdown-item"
-                  onClick={() => {
-                    setIsFundingOpen(false);
-                    setIsOpen(false);
-                  }}
-                >
-                  Government Schemes
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       )}
