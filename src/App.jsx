@@ -9,10 +9,13 @@ import MutualFunds from './pages/MutualFunds';
 import SIPs from './pages/SIPs';
 import GoldBonds from './pages/GoldBonds';
 import Stocks from './pages/Stocks';
+import GovernmentSchemes from './pages/GovernmentSchemes';
+import ContactPage from './pages/Contact';
+import TaxCalculator from './pages/TaxCalculator';
 
 function App() {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -23,6 +26,9 @@ function App() {
           <Route path="sips" element={<SIPs />} />
           <Route path="gold-bonds" element={<GoldBonds />} />
           <Route path="stocks" element={<Stocks />} />
+          <Route path="government-schemes" element={<GovernmentSchemes />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="tax-calculator" element={<TaxCalculator />} />
         </Route>
       </Routes>
     </Router>

@@ -11,6 +11,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   UserCircleIcon,
+  ChatBubbleLeftIcon,
 } from '@heroicons/react/24/outline';
 
 const Sidebar = () => {
@@ -65,6 +66,24 @@ const Sidebar = () => {
               </Link>
             </li>
           ))}
+          <li className="sidebar-item">
+            <Link
+              to="/contact"
+              className={`sidebar-link ${isActive('/contact') ? 'sidebar-link-active' : ''}`}
+            >
+              <ChatBubbleLeftIcon className="sidebar-icon" />
+              <span>Contact Us</span>
+            </Link>
+          </li>
+          <li className="sidebar-item">
+            <Link
+              to="/tax-calculator"
+              className={`sidebar-link ${isActive('/tax-calculator') ? 'sidebar-link-active' : ''}`}
+            >
+              <CalculatorIcon className="sidebar-icon" />
+              <span>Tax Calculator</span>
+            </Link>
+          </li>
         </ul>
       </nav>
 
