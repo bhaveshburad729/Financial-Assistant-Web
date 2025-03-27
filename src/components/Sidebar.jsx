@@ -11,6 +11,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   UserCircleIcon,
+  UserIcon,
 } from '@heroicons/react/24/outline';
 
 const Sidebar = () => {
@@ -23,6 +24,7 @@ const Sidebar = () => {
     { path: '/tax-calculator', icon: CalculatorIcon, label: 'Tax Calculator' },
     { path: '/document-compressor', icon: DocumentIcon, label: 'Document Compressor' },
     { path: '/notifications', icon: BellIcon, label: 'Notifications' },
+    { path: '/profile', icon: UserIcon, label: 'Profile' },
     { path: '/reports', icon: PrinterIcon, label: 'Printable Reports' },
   ];
 

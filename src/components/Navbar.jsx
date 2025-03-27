@@ -9,7 +9,9 @@ import {
   ChartBarIcon,
   CurrencyDollarIcon,
   BanknotesIcon,
-  ChartPieIcon
+  ChartPieIcon,
+  BuildingLibraryIcon,
+  ChatBubbleLeftIcon
 } from '@heroicons/react/24/outline';
 
 const Navbar = () => {
@@ -108,11 +110,22 @@ const Navbar = () => {
                     <ChartPieIcon className="dropdown-item-icon" />
                     Stocks
                   </Link>
+                  <Link 
+                    to="/government-schemes" 
+                    className="dropdown-item"
+                    onClick={() => setIsFundingOpen(false)}
+                  >
+                    <BuildingLibraryIcon className="dropdown-item-icon" />
+                    Government Schemes
+                  </Link>
                 </div>
               )}
             </div>
-            <Link to="/schemes" className="navbar-link">Government Schemes</Link>
-            <Link to="/contact" className="navbar-link">Contact Us</Link>
+            <Link to="/government-schemes" className="navbar-link">Government Schemes</Link>
+            <Link to="/contact" className="navbar-link">
+              <ChatBubbleLeftIcon className="navbar-icon" />
+              Contact Us
+            </Link>
           </div>
 
           <div className="navbar-actions">
@@ -230,12 +243,25 @@ const Navbar = () => {
                 >
                   Stocks
                 </Link>
+                <Link 
+                  to="/government-schemes" 
+                  className="navbar-mobile-dropdown-item"
+                  onClick={() => {
+                    setIsFundingOpen(false);
+                    setIsOpen(false);
+                  }}
+                >
+                  Government Schemes
+                </Link>
               </div>
             )}
           </div>
 
-          <Link to="/schemes" className="navbar-mobile-link">Government Schemes</Link>
-          <Link to="/contact" className="navbar-mobile-link">Contact Us</Link>
+          <Link to="/government-schemes" className="navbar-mobile-link">Government Schemes</Link>
+          <Link to="/contact" className="navbar-mobile-link">
+            <ChatBubbleLeftIcon className="navbar-icon" />
+            Contact Us
+          </Link>
           <div className="navbar-mobile-actions">
             <button 
               className="navbar-theme-toggle"
