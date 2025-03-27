@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="320" height="180" viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="320" height="180" fill="#F3F4F6"/>
+  <rect width="320" height="180" fill="#E5E7EB" opacity="0.5"/>
+  
+  <!-- Video Conference -->
+  <rect x="40" y="40" width="240" height="100" rx="8" fill="#10B981"/>
+  
+  <!-- Participants -->
+  <circle cx="100" cy="90" r="20" fill="white"/>
+  <circle cx="220" cy="90" r="20" fill="white"/>
+  <circle cx="160" cy="90" r="20" fill="white"/>
+  
+  <!-- Video Icons -->
+  <circle cx="100" cy="90" r="8" fill="#10B981"/>
+  <circle cx="160" cy="90" r="8" fill="#10B981"/>
+  <circle cx="220" cy="90" r="8" fill="#10B981"/>
+  
+  <!-- Decorative Elements -->
+  <circle cx="60" cy="60" r="6" fill="#10B981" opacity="0.2"/>
+  <circle cx="260" cy="120" r="8" fill="#10B981" opacity="0.2"/>
+  <circle cx="160" cy="160" r="4" fill="#10B981" opacity="0.2"/>
+</svg> 

@@ -12,6 +12,10 @@ import {
 import VideoCard from '../components/VideoCard';
 import VideoPlayer from '../components/VideoPlayer';
 import { youtubeService } from '../services/youtubeService';
+import videoIllustration from '../assets/svg/video-illustration.svg';
+import articleIllustration from '../assets/svg/article-illustration.svg';
+import webinarIllustration from '../assets/svg/webinar-illustration.svg';
+import pdfIllustration from '../assets/svg/pdf-illustration.svg';
 
 const LearningPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,7 +30,7 @@ const LearningPage = () => {
       duration: "45 mins",
       platform: "YouTube",
       level: "Beginner",
-      thumbnailUrl: "/api/placeholder/320/180",
+      thumbnailUrl: videoIllustration,
       bookmarked: false,
       description: "Comprehensive guide to understanding stock market fundamentals for new investors."
     },
@@ -38,7 +42,7 @@ const LearningPage = () => {
       duration: "15 mins read",
       platform: "Medium",
       level: "Beginner",
-      thumbnailUrl: "/api/placeholder/320/180",
+      thumbnailUrl: articleIllustration,
       bookmarked: false,
       description: "Deep dive into mutual fund types, benefits, and investment strategies."
     },
@@ -50,7 +54,7 @@ const LearningPage = () => {
       duration: "90 mins",
       platform: "Udemy",
       level: "Advanced",
-      thumbnailUrl: "/api/placeholder/320/180",
+      thumbnailUrl: webinarIllustration,
       bookmarked: false,
       description: "Sophisticated options trading techniques for experienced investors."
     },
@@ -62,7 +66,7 @@ const LearningPage = () => {
       duration: "30 mins read",
       platform: "Financial Experts",
       level: "Intermediate",
-      thumbnailUrl: "/api/placeholder/320/180",
+      thumbnailUrl: pdfIllustration,
       bookmarked: false,
       description: "Comprehensive guide to Systematic Investment Plans and their benefits."
     }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="320" height="180" viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="320" height="180" fill="#F3F4F6"/>
+  <rect width="320" height="180" fill="#E5E7EB" opacity="0.5"/>
+  
+  <!-- Play Button -->
+  <circle cx="160" cy="90" r="40" fill="#EF4444"/>
+  <path d="M145 80L175 90L145 100V80Z" fill="white"/>
+  
+  <!-- Decorative Elements -->
+  <circle cx="80" cy="45" r="8" fill="#EF4444" opacity="0.2"/>
+  <circle cx="240" cy="135" r="12" fill="#EF4444" opacity="0.2"/>
+  <circle cx="160" cy="160" r="6" fill="#EF4444" opacity="0.2"/>
+</svg> 
