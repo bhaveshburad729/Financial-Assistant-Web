@@ -140,8 +140,11 @@ const Navbar = () => {
                 <MoonIcon className="navbar-icon" />
               )}
             </button>
-            <Link to="/login" className="btn-primary">
+            <Link to="/login" className="auth-button login">
               Login
+            </Link>
+            <Link to="/signup" className="auth-button signup">
+              Sign Up
             </Link>
           </div>
         </div>
@@ -187,18 +190,7 @@ const Navbar = () => {
               onClick={toggleFundingDropdown}
             >
               Funding
-              <svg 
-                className={`dropdown-icon ${isFundingOpen ? 'rotate-180' : ''}`}
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 20 20" 
-                fill="currentColor"
-              >
-                <path 
-                  fillRule="evenodd" 
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
-                  clipRule="evenodd" 
-                />
-              </svg>
+              <ChevronDownIcon className={`dropdown-icon ${isFundingOpen ? 'rotate-180' : ''}`} />
             </button>
             
             {isFundingOpen && (
@@ -256,26 +248,29 @@ const Navbar = () => {
               </div>
             )}
           </div>
-
-          <Link to="/government-schemes" className="navbar-mobile-link">Government Schemes</Link>
-          <Link to="/contact" className="navbar-mobile-link">
-            <ChatBubbleLeftIcon className="navbar-icon" />
+          
+          <Link 
+            to="/contact" 
+            className="navbar-mobile-link"
+            onClick={() => setIsOpen(false)}
+          >
             Contact Us
           </Link>
+          
           <div className="navbar-mobile-actions">
-            <button 
-              className="navbar-theme-toggle"
-              onClick={toggleDarkMode}
-              aria-label="Toggle dark mode"
+            <Link 
+              to="/login" 
+              className="auth-button login"
+              onClick={() => setIsOpen(false)}
             >
-              {isDark ? (
-                <SunIcon className="navbar-icon" />
-              ) : (
-                <MoonIcon className="navbar-icon" />
-              )}
-            </button>
-            <Link to="/login" className="btn-primary">
               Login
+            </Link>
+            <Link 
+              to="/signup" 
+              className="auth-button signup"
+              onClick={() => setIsOpen(false)}
+            >
+              Sign Up
             </Link>
           </div>
         </div>

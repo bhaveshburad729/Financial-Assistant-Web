@@ -6,6 +6,7 @@ import {
   EyeIcon,
   EyeSlashIcon,
   UserIcon,
+  PhoneIcon,
 } from '@heroicons/react/24/outline';
 
 const Signup = () => {
@@ -13,6 +14,7 @@ const Signup = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     password: '',
     confirmPassword: '',
   });
@@ -26,30 +28,28 @@ const Signup = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    // Name validation
-    if (!formData.name.trim()) {
+    if (!formData.name) {
       newErrors.name = 'Name is required';
-    } else if (formData.name.length < 2) {
-      newErrors.name = 'Name must be at least 2 characters long';
     }
 
-    // Email validation
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Please enter a valid email';
     }
 
-    // Password validation
+    if (!formData.phone) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!/^\+?[\d\s-]{10,}$/.test(formData.phone)) {
+      newErrors.phone = 'Please enter a valid phone number';
+    }
+
     if (!formData.password) {
       newErrors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters long';
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(formData.password)) {
-      newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
     }
 
-    // Confirm password validation
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = 'Please confirm your password';
     } else if (formData.password !== formData.confirmPassword) {
@@ -60,32 +60,6 @@ const Signup = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSignupError('');
-    
-    if (!validateForm()) return;
-
-    setIsLoading(true);
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock email check
-      if (formData.email === 'test@example.com') {
-        setSignupError('This email is already registered. Please use a different email or sign in.');
-      } else {
-        // Store form data temporarily
-        sessionStorage.setItem('signupData', JSON.stringify(formData));
-        setShowExperienceModal(true);
-      }
-    } catch (error) {
-      setSignupError('An error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -94,9 +68,42 @@ const Signup = () => {
     }));
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setSignupError('');
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Here you would typically make an API call to your backend
+      // For demo purposes, we'll simulate a successful signup
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Store user data in localStorage or your preferred state management solution
+      localStorage.setItem('user', JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone
+      }));
+
+      // Redirect to dashboard
+      navigate('/dashboard');
+    } catch (error) {
+      setSignupError('Failed to create account. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleExperienceSelect = async (level) => {
@@ -136,135 +143,102 @@ const Signup = () => {
       <div className="auth-card">
         <div className="auth-header">
           <h1 className="auth-title">Create Account</h1>
-          <p className="auth-subtitle">Join our financial community</p>
+          <p className="auth-subtitle">Join us to manage your finances</p>
         </div>
+
+        {signupError && (
+          <div className="auth-error">
+            {signupError}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="name" className="form-label">
-              Full Name
+            <label className="form-label">
+              <UserIcon className="form-icon" />
+              <span>Full Name</span>
             </label>
-            <div className="input-group">
-              <UserIcon className="input-icon" />
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className={`form-input ${errors.name ? 'input-error' : ''}`}
-                placeholder="Enter your full name"
-                autoComplete="name"
-                disabled={isLoading}
-              />
-            </div>
-            {errors.name && <p className="error-message">{errors.name}</p>}
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className={`form-input ${errors.name ? 'error' : ''}`}
+              placeholder="Enter your full name"
+            />
+            {errors.name && <span className="error-message">{errors.name}</span>}
           </div>
 
           <div className="form-group">
-            <label htmlFor="email" className="form-label">
-              Email Address
+            <label className="form-label">
+              <EnvelopeIcon className="form-icon" />
+              <span>Email Address</span>
             </label>
-            <div className="input-group">
-              <EnvelopeIcon className="input-icon" />
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={`form-input ${errors.email ? 'input-error' : ''}`}
-                placeholder="Enter your email"
-                autoComplete="email"
-                disabled={isLoading}
-              />
-            </div>
-            {errors.email && <p className="error-message">{errors.email}</p>}
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={`form-input ${errors.email ? 'error' : ''}`}
+              placeholder="Enter your email"
+            />
+            {errors.email && <span className="error-message">{errors.email}</span>}
           </div>
 
           <div className="form-group">
-            <label htmlFor="password" className="form-label">
-              Password
+            <label className="form-label">
+              <PhoneIcon className="form-icon" />
+              <span>Phone Number</span>
             </label>
-            <div className="input-group">
-              <LockClosedIcon className="input-icon" />
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className={`form-input ${errors.password ? 'input-error' : ''}`}
-                placeholder="Create a password"
-                autoComplete="new-password"
-                disabled={isLoading}
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
-                disabled={isLoading}
-              >
-                {showPassword ? (
-                  <EyeSlashIcon className="toggle-icon" />
-                ) : (
-                  <EyeIcon className="toggle-icon" />
-                )}
-              </button>
-            </div>
-            {errors.password && <p className="error-message">{errors.password}</p>}
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className={`form-input ${errors.phone ? 'error' : ''}`}
+              placeholder="Enter your phone number"
+            />
+            {errors.phone && <span className="error-message">{errors.phone}</span>}
           </div>
 
           <div className="form-group">
-            <label htmlFor="confirmPassword" className="form-label">
-              Confirm Password
+            <label className="form-label">
+              <LockClosedIcon className="form-icon" />
+              <span>Password</span>
             </label>
-            <div className="input-group">
-              <LockClosedIcon className="input-icon" />
-              <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                id="confirmPassword"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className={`form-input ${errors.confirmPassword ? 'input-error' : ''}`}
-                placeholder="Confirm your password"
-                autoComplete="new-password"
-                disabled={isLoading}
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                disabled={isLoading}
-              >
-                {showConfirmPassword ? (
-                  <EyeSlashIcon className="toggle-icon" />
-                ) : (
-                  <EyeIcon className="toggle-icon" />
-                )}
-              </button>
-            </div>
-            {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className={`form-input ${errors.password ? 'error' : ''}`}
+              placeholder="Create a password"
+            />
+            {errors.password && <span className="error-message">{errors.password}</span>}
           </div>
 
-          {signupError && (
-            <div className="error-alert">{signupError}</div>
-          )}
+          <div className="form-group">
+            <label className="form-label">
+              <LockClosedIcon className="form-icon" />
+              <span>Confirm Password</span>
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
+              placeholder="Confirm your password"
+            />
+            {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+          </div>
 
-          <button
-            type="submit"
-            className={`submit-button ${isLoading ? 'loading' : ''}`}
+          <button 
+            type="submit" 
+            className="auth-button"
             disabled={isLoading}
           >
-            {isLoading ? (
-              <>
-                <span className="spinner"></span>
-                Creating account...
-              </>
-            ) : (
-              'Create Account'
-            )}
+            {isLoading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 

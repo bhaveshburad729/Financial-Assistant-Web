@@ -17,16 +17,19 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [loginError, setLoginError] = useState('');
 
   const validateForm = () => {
     const newErrors = {};
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Please enter a valid email';
     }
     if (!formData.password) {
       newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -34,15 +37,29 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    setLoginError('');
+
+    if (!validateForm()) {
+      return;
+    }
 
     setIsLoading(true);
+
     try {
-      // Add your login logic here
-      console.log('Logging in...', formData);
+      // Here you would typically make an API call to your backend
+      // For demo purposes, we'll simulate a successful login
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Store user data in localStorage or your preferred state management solution
+      localStorage.setItem('user', JSON.stringify({
+        email: formData.email,
+        name: 'Demo User'
+      }));
+
+      // Redirect to dashboard
       navigate('/dashboard');
     } catch (error) {
-      setErrors({ submit: error.message });
+      setLoginError('Invalid email or password');
     } finally {
       setIsLoading(false);
     }
@@ -70,112 +87,65 @@ const Login = () => {
       <div className="auth-card">
         <div className="auth-header">
           <h1 className="auth-title">Welcome Back</h1>
-          <p className="auth-subtitle">Sign in to your account</p>
+          <p className="auth-subtitle">Please sign in to your account</p>
         </div>
+
+        {loginError && (
+          <div className="auth-error">
+            {loginError}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="email" className="form-label">
-              Email Address
+            <label className="form-label">
+              <EnvelopeIcon className="form-icon" />
+              <span>Email Address</span>
             </label>
-            <div className="input-group">
-              <EnvelopeIcon className="input-icon" />
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={`form-input ${errors.email ? 'input-error' : ''}`}
-                placeholder="Enter your email"
-              />
-            </div>
-            {errors.email && <p className="error-message">{errors.email}</p>}
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={`form-input ${errors.email ? 'error' : ''}`}
+              placeholder="Enter your email"
+            />
+            {errors.email && <span className="error-message">{errors.email}</span>}
           </div>
 
           <div className="form-group">
-            <label htmlFor="password" className="form-label">
-              Password
+            <label className="form-label">
+              <LockClosedIcon className="form-icon" />
+              <span>Password</span>
             </label>
-            <div className="input-group">
-              <LockClosedIcon className="input-icon" />
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className={`form-input ${errors.password ? 'input-error' : ''}`}
-                placeholder="Enter your password"
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <EyeSlashIcon className="toggle-icon" />
-                ) : (
-                  <EyeIcon className="toggle-icon" />
-                )}
-              </button>
-            </div>
-            {errors.password && <p className="error-message">{errors.password}</p>}
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className={`form-input ${errors.password ? 'error' : ''}`}
+              placeholder="Enter your password"
+            />
+            {errors.password && <span className="error-message">{errors.password}</span>}
           </div>
 
           <div className="form-options">
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="rememberMe"
-                checked={formData.rememberMe}
-                onChange={handleChange}
-                className="checkbox-input"
-              />
+            <label className="remember-me">
+              <input type="checkbox" />
               <span>Remember me</span>
             </label>
             <Link to="/forgot-password" className="forgot-password">
-              Forgot password?
+              Forgot Password?
             </Link>
           </div>
 
-          {errors.submit && (
-            <div className="error-alert">{errors.submit}</div>
-          )}
-
-          <button
-            type="submit"
-            className={`submit-button ${isLoading ? 'loading' : ''}`}
+          <button 
+            type="submit" 
+            className="auth-button"
             disabled={isLoading}
           >
-            {isLoading ? (
-              <span className="spinner"></span>
-            ) : (
-              'Sign In'
-            )}
+            {isLoading ? 'Signing in...' : 'Sign In'}
           </button>
-
-          <div className="social-login">
-            <p className="social-divider">Or continue with</p>
-            <div className="social-buttons">
-              <button
-                type="button"
-                className="social-button google"
-                onClick={() => handleSocialLogin('google')}
-              >
-                <img src="/google-icon.svg" alt="Google" className="social-icon" />
-                Google
-              </button>
-              <button
-                type="button"
-                className="social-button linkedin"
-                onClick={() => handleSocialLogin('linkedin')}
-              >
-                <img src="/linkedin-icon.svg" alt="LinkedIn" className="social-icon" />
-                LinkedIn
-              </button>
-            </div>
-          </div>
         </form>
 
         <div className="auth-footer">
