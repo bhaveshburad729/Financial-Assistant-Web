@@ -214,6 +214,10 @@ const TaxCalculator = () => {
                 <span className="tax-result-value">₹{taxResults.totalDeductions.toLocaleString()}</span>
               </div>
               <div className="tax-result-item">
+                <span>Basic Exemption:</span>
+                <span className="tax-result-value">₹{taxResults.basicExemption.toLocaleString()}</span>
+              </div>
+              <div className="tax-result-item">
                 <span>Taxable Income:</span>
                 <span className="tax-result-value">₹{taxResults.taxableIncome.toLocaleString()}</span>
               </div>
@@ -222,12 +226,34 @@ const TaxCalculator = () => {
                 <span className="tax-result-value">₹{taxResults.taxAmount.toLocaleString()}</span>
               </div>
               <div className="tax-result-item">
-                <span>Final Tax (with Cess):</span>
+                <span>Health & Education Cess (4%):</span>
+                <span className="tax-result-value">₹{taxResults.cess.toLocaleString()}</span>
+              </div>
+              <div className="tax-result-item">
+                <span>Final Tax:</span>
                 <span className="tax-result-value">₹{taxResults.finalTax.toLocaleString()}</span>
               </div>
               <div className="tax-result-item">
                 <span>Effective Tax Rate:</span>
                 <span className="tax-result-value">{taxResults.effectiveTaxRate}%</span>
+              </div>
+            </div>
+
+            {/* Tax Slab Breakdown */}
+            <div className="tax-slab-breakdown">
+              <h3 className="tax-slab-title">Tax Slab Breakdown</h3>
+              <div className="tax-slab-grid">
+                {taxResults.taxBreakdown.map((slab, index) => (
+                  <div key={index} className="tax-slab-item">
+                    <div className="tax-slab-header">
+                      <span className="tax-slab-range">{slab.slab}</span>
+                      <span className="tax-slab-rate">{slab.rate}</span>
+                    </div>
+                    <div className="tax-slab-amount">
+                      ₹{slab.amount.toLocaleString()}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -1,119 +1,177 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { 
+  BookOpenIcon, 
+  VideoCameraIcon, 
+  DocumentTextIcon, 
+  PlayCircleIcon, 
+  BookmarkIcon, 
+  FunnelIcon,
+  MagnifyingGlassIcon
+} from '@heroicons/react/24/outline';
 import VideoCard from '../components/VideoCard';
 import VideoPlayer from '../components/VideoPlayer';
 import { youtubeService } from '../services/youtubeService';
 
-const Learning = () => {
-  const [videos, setVideos] = useState([]);
-  const [bookmarkedVideos, setBookmarkedVideos] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
-  const location = useLocation();
+const LearningPage = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
-  // Load bookmarked videos from localStorage on component mount
-  useEffect(() => {
-    const savedBookmarks = localStorage.getItem('bookmarkedVideos');
-    if (savedBookmarks) {
-      setBookmarkedVideos(JSON.parse(savedBookmarks));
+  const learningResources = [
+    {
+      id: 1,
+      title: "Investing 101: Basics for Beginners",
+      type: "Video",
+      category: "Stocks",
+      duration: "45 mins",
+      platform: "YouTube",
+      level: "Beginner",
+      thumbnailUrl: "/api/placeholder/320/180",
+      bookmarked: false,
+      description: "Comprehensive guide to understanding stock market fundamentals for new investors."
+    },
+    {
+      id: 2,
+      title: "Mutual Funds Explained Simply",
+      type: "Article",
+      category: "Mutual Funds",
+      duration: "15 mins read",
+      platform: "Medium",
+      level: "Beginner",
+      thumbnailUrl: "/api/placeholder/320/180",
+      bookmarked: false,
+      description: "Deep dive into mutual fund types, benefits, and investment strategies."
+    },
+    {
+      id: 3,
+      title: "Advanced Options Trading Strategies",
+      type: "Webinar",
+      category: "Stocks",
+      duration: "90 mins",
+      platform: "Udemy",
+      level: "Advanced",
+      thumbnailUrl: "/api/placeholder/320/180",
+      bookmarked: false,
+      description: "Sophisticated options trading techniques for experienced investors."
+    },
+    {
+      id: 4,
+      title: "SIP Investment Guide",
+      type: "PDF",
+      category: "SIP",
+      duration: "30 mins read",
+      platform: "Financial Experts",
+      level: "Intermediate",
+      thumbnailUrl: "/api/placeholder/320/180",
+      bookmarked: false,
+      description: "Comprehensive guide to Systematic Investment Plans and their benefits."
     }
-  }, []);
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-
-    setLoading(true);
-    try {
-      const results = await youtubeService.searchVideos(searchQuery);
-      setVideos(results);
-    } catch (error) {
-      console.error('Error searching videos:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleBookmarkToggle = (videoId) => {
-    setBookmarkedVideos(prev => {
-      const isBookmarked = prev.includes(videoId);
-      const newBookmarks = isBookmarked
-        ? prev.filter(id => id !== videoId)
-        : [...prev, videoId];
-      
-      // Save to localStorage
-      localStorage.setItem('bookmarkedVideos', JSON.stringify(newBookmarks));
-      return newBookmarks;
-    });
-  };
-
-  const categories = [
-    { name: 'Investment Basics', query: 'investment basics for beginners' },
-    { name: 'Stock Market', query: 'stock market tutorial' },
-    { name: 'Mutual Funds', query: 'mutual funds explained' },
-    { name: 'Personal Finance', query: 'personal finance tips' },
   ];
 
+  const categories = [
+    "All", "Stocks", "Mutual Funds", "SIP", "Gold Bonds", "Tax Planning"
+  ];
+
+  const filteredResources = learningResources.filter(resource => 
+    (selectedCategory === 'All' || resource.category === selectedCategory) &&
+    resource.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const renderResourceIcon = (type) => {
+    switch(type) {
+      case 'Video': return <PlayCircleIcon className="resource-icon video" />;
+      case 'Article': return <DocumentTextIcon className="resource-icon article" />;
+      case 'Webinar': return <VideoCameraIcon className="resource-icon webinar" />;
+      case 'PDF': return <BookOpenIcon className="resource-icon pdf" />;
+      default: return null;
+    }
+  };
+
   return (
-    <div className="learning">
-      <div className="learning-header">
-        <h1 className="learning-title">Learning Center</h1>
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search videos..."
-            value={searchQuery}
-            onChange={handleSearch}
-            className="search-input"
-          />
+    <div className="learning-container">
+      <div className="learning-content">
+        {/* Header */}
+        <div className="learning-header">
+          <h1 className="learning-title">Learning Resources</h1>
+          <p className="learning-subtitle">
+            Enhance your financial knowledge with curated learning materials
+          </p>
         </div>
-      </div>
 
-      {/* Categories */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {categories.map((category) => (
-          <button
-            key={category.name}
-            onClick={() => setSearchQuery(category.query)}
-            className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow text-left"
-          >
-            <h3 className="font-semibold text-gray-900 dark:text-white">
-              {category.name}
-            </h3>
-          </button>
-        ))}
-      </div>
-
-      {/* Video Grid */}
-      {loading ? (
-        <div className="loading-container">
-          <div className="spinner"></div>
-          <p className="loading-text">Loading videos...</p>
-        </div>
-      ) : (
-        <div className="videos-grid">
-          {videos.map((video) => (
-            <VideoCard
-              key={video.id.videoId}
-              video={video}
-              isBookmarked={bookmarkedVideos.includes(video.id.videoId)}
-              onBookmarkToggle={handleBookmarkToggle}
+        {/* Search and Filter */}
+        <div className="search-filter-container">
+          <div className="search-container">
+            <input 
+              type="text" 
+              placeholder="Search learning resources..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
             />
-          ))}
-        </div>
-      )}
-
-      {/* Video Player Modal */}
-      {location.state?.videoId && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-4xl">
-            <div className="p-4">
-              <VideoPlayer videoId={location.state.videoId} />
-            </div>
+            <MagnifyingGlassIcon className="search-icon" />
+          </div>
+          <div className="filter-container">
+            <FunnelIcon className="filter-icon" />
+            <select 
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="category-select"
+            >
+              {categories.map(category => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
           </div>
         </div>
-      )}
+
+        {/* Resources Grid */}
+        <div className="resources-grid">
+          {filteredResources.map(resource => (
+            <div 
+              key={resource.id} 
+              className="resource-card"
+            >
+              <div className="resource-thumbnail">
+                <img 
+                  src={resource.thumbnailUrl} 
+                  alt={resource.title} 
+                  className="thumbnail-image"
+                />
+                <div className="resource-type-icon">
+                  {renderResourceIcon(resource.type)}
+                </div>
+              </div>
+              <div className="resource-content">
+                <div className="resource-header">
+                  <span className="level-badge">{resource.level}</span>
+                  <span className="duration-text">{resource.duration}</span>
+                </div>
+                <h3 className="resource-title">{resource.title}</h3>
+                <p className="resource-description">
+                  {resource.description}
+                </p>
+                <div className="resource-footer">
+                  <span className="platform-text">{resource.platform}</span>
+                  <div className="resource-actions">
+                    <button className="bookmark-button">
+                      <BookmarkIcon className="bookmark-icon" />
+                    </button>
+                    <button className="start-learning-button">
+                      Start Learning
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {filteredResources.length === 0 && (
+          <div className="no-results">
+            <p>No resources found. Try a different search or category.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -181,7 +239,7 @@ const Bookmarks = () => {
 const LearningRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Learning />} />
+      <Route path="/" element={<LearningPage />} />
       <Route path="/bookmarks" element={<Bookmarks />} />
     </Routes>
   );
