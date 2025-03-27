@@ -11,8 +11,13 @@ import {
   BanknotesIcon,
   ChartPieIcon,
   BuildingLibraryIcon,
-  ChatBubbleLeftIcon
+  ChatBubbleLeftIcon,
+  HomeIcon,
+  AcademicCapIcon,
+  DocumentTextIcon
 } from '@heroicons/react/24/outline';
+import '../styles/auth.css';
+import '../styles/animations.css';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,11 +35,18 @@ const Navbar = () => {
     setIsFundingOpen(!isFundingOpen);
   };
 
+  const navigation = [
+    { name: 'Home', href: '/', icon: HomeIcon },
+    { name: 'Learning', href: '/learning', icon: AcademicCapIcon },
+    { name: 'Funding', href: '/funding', icon: CurrencyDollarIcon },
+    { name: 'Schemes', href: '/schemes', icon: DocumentTextIcon },
+  ];
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-brand">
-          <Link to="/" className="navbar-logo">
+          <Link to="/" className="navbar-logo hover-card">
             FinAssist
           </Link>
         </div>
@@ -42,45 +54,34 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <div className="navbar-desktop">
           <div className="navbar-links">
-            <Link 
-              to="/" 
-              className={`navbar-link ${location.pathname === '/' ? 'active' : ''}`}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/learning" 
-              className={`navbar-link ${location.pathname === '/learning' ? 'active' : ''}`}
-            >
-              Learning
-            </Link>
+            {navigation.map((item) => (
+              <Link 
+                key={item.name}
+                to={item.href} 
+                className={`navbar-link ${location.pathname === item.href ? 'active' : ''}`}
+              >
+                <item.icon className="navbar-icon" />
+                {item.name}
+              </Link>
+            ))}
             
             {/* Funding Dropdown */}
             <div className="dropdown-container">
               <button 
-                className="dropdown-button"
+                className="dropdown-button ripple"
                 onClick={toggleFundingDropdown}
               >
                 Funding
-                <svg 
+                <ChevronDownIcon 
                   className={`dropdown-icon ${isFundingOpen ? 'rotate-180' : ''}`}
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 20 20" 
-                  fill="currentColor"
-                >
-                  <path 
-                    fillRule="evenodd" 
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
-                    clipRule="evenodd" 
-                  />
-                </svg>
+                />
               </button>
               
               {isFundingOpen && (
                 <div className="dropdown-menu">
                   <Link 
                     to="/mutual-funds" 
-                    className="dropdown-item"
+                    className="dropdown-item hover-card"
                     onClick={() => setIsFundingOpen(false)}
                   >
                     <ChartBarIcon className="dropdown-item-icon" />
@@ -88,7 +89,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/sips" 
-                    className="dropdown-item"
+                    className="dropdown-item hover-card"
                     onClick={() => setIsFundingOpen(false)}
                   >
                     <CurrencyDollarIcon className="dropdown-item-icon" />
@@ -96,7 +97,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/gold-bonds" 
-                    className="dropdown-item"
+                    className="dropdown-item hover-card"
                     onClick={() => setIsFundingOpen(false)}
                   >
                     <BanknotesIcon className="dropdown-item-icon" />
@@ -168,20 +169,44 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="navbar-mobile-menu">
-          <Link 
-            to="/" 
-            className="navbar-mobile-link"
-            onClick={() => setIsOpen(false)}
-          >
-            Home
-          </Link>
-          <Link 
-            to="/learning" 
-            className="navbar-mobile-link"
-            onClick={() => setIsOpen(false)}
-          >
-            Learning
-          </Link>
+          <div className="navbar-mobile-links">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className="navbar-mobile-link"
+                onClick={() => setIsOpen(false)}
+              >
+                <item.icon className="navbar-icon" />
+                {item.name}
+              </Link>
+            ))}
+            <Link 
+              to="/contact" 
+              className="navbar-mobile-link"
+              onClick={() => setIsOpen(false)}
+            >
+              <ChatBubbleLeftIcon className="navbar-icon" />
+              Contact Us
+            </Link>
+            
+            <div className="navbar-mobile-actions">
+              <Link 
+                to="/login" 
+                className="auth-button login"
+                onClick={() => setIsOpen(false)}
+              >
+                Login
+              </Link>
+              <Link 
+                to="/signup" 
+                className="auth-button signup"
+                onClick={() => setIsOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </div>
+          </div>
           
           {/* Mobile Funding Dropdown */}
           <div className="navbar-mobile-dropdown">
@@ -247,31 +272,6 @@ const Navbar = () => {
                 </Link>
               </div>
             )}
-          </div>
-          
-          <Link 
-            to="/contact" 
-            className="navbar-mobile-link"
-            onClick={() => setIsOpen(false)}
-          >
-            Contact Us
-          </Link>
-          
-          <div className="navbar-mobile-actions">
-            <Link 
-              to="/login" 
-              className="auth-button login"
-              onClick={() => setIsOpen(false)}
-            >
-              Login
-            </Link>
-            <Link 
-              to="/signup" 
-              className="auth-button signup"
-              onClick={() => setIsOpen(false)}
-            >
-              Sign Up
-            </Link>
           </div>
         </div>
       )}

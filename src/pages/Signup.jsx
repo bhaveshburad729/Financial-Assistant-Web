@@ -8,6 +8,8 @@ import {
   UserIcon,
   PhoneIcon,
 } from '@heroicons/react/24/outline';
+import '../styles/auth.css';
+import '../styles/animations.css';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -97,8 +99,8 @@ const Signup = () => {
         phone: formData.phone
       }));
 
-      // Redirect to dashboard
-      navigate('/dashboard');
+      // Show experience level modal
+      setShowExperienceModal(true);
     } catch (error) {
       setSignupError('Failed to create account. Please try again.');
     } finally {
@@ -129,8 +131,8 @@ const Signup = () => {
       // Clear signup data
       sessionStorage.removeItem('signupData');
       
-      // Navigate to dashboard
-      navigate('/dashboard');
+      // Navigate to home page
+      navigate('/');
     } catch (error) {
       setSignupError('An error occurred. Please try again.');
     } finally {
@@ -206,14 +208,27 @@ const Signup = () => {
               <LockClosedIcon className="form-icon" />
               <span>Password</span>
             </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className={`form-input ${errors.password ? 'error' : ''}`}
-              placeholder="Create a password"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className={`form-input ${errors.password ? 'error' : ''}`}
+                placeholder="Create a password"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 ripple"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeSlashIcon className="h-5 w-5" />
+                ) : (
+                  <EyeIcon className="h-5 w-5" />
+                )}
+              </button>
+            </div>
             {errors.password && <span className="error-message">{errors.password}</span>}
           </div>
 
@@ -222,23 +237,40 @@ const Signup = () => {
               <LockClosedIcon className="form-icon" />
               <span>Confirm Password</span>
             </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
-              placeholder="Confirm your password"
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
+                placeholder="Confirm your password"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 ripple"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? (
+                  <EyeSlashIcon className="h-5 w-5" />
+                ) : (
+                  <EyeIcon className="h-5 w-5" />
+                )}
+              </button>
+            </div>
             {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
           </div>
 
           <button 
             type="submit" 
-            className="auth-button"
+            className="auth-button ripple"
             disabled={isLoading}
           >
-            {isLoading ? 'Creating Account...' : 'Create Account'}
+            {isLoading ? (
+              <span className="loading">Creating Account...</span>
+            ) : (
+              'Create Account'
+            )}
           </button>
         </form>
 
@@ -262,7 +294,7 @@ const Signup = () => {
             </p>
             <div className="experience-options">
               <button
-                className="experience-button"
+                className="experience-button ripple"
                 onClick={() => handleExperienceSelect('beginner')}
                 disabled={isLoading}
               >
@@ -273,7 +305,7 @@ const Signup = () => {
                 </span>
               </button>
               <button
-                className="experience-button"
+                className="experience-button ripple"
                 onClick={() => handleExperienceSelect('intermediate')}
                 disabled={isLoading}
               >
@@ -284,7 +316,7 @@ const Signup = () => {
                 </span>
               </button>
               <button
-                className="experience-button"
+                className="experience-button ripple"
                 onClick={() => handleExperienceSelect('professional')}
                 disabled={isLoading}
               >
