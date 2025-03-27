@@ -1,178 +1,184 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { MessageCircle, ChartBar, Shield, BookOpen, Calculator, Bell } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { 
-  ChartBarIcon, 
-  CurrencyDollarIcon, 
-  AcademicCapIcon, 
-  ShieldCheckIcon,
-  SparklesIcon,
-  ChatBubbleLeftRightIcon,
-  ArrowRightIcon,
-  BookOpenIcon,
-  ClipboardDocumentListIcon
-} from '@heroicons/react/24/outline';
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const Home = () => {
-  const [showTip, setShowTip] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
+  const cardData = [
+    {
+      title: 'Mutual Funds',
+      description: 'Explore diverse investment opportunities with our comprehensive mutual funds guide.',
+      image: '/images/mutual-funds.jpg',
+      link: '/mutual-funds'
+    },
+    {
+      title: 'Systematic Investment Plan (SIP)',
+      description: 'Learn how SIPs can help you build wealth systematically and consistently.',
+      image: '/images/sip.jpg',
+      link: '/sips'
+    },
+    {
+      title: 'Stock Market Insights',
+      description: 'Get expert analysis and strategies for navigating the stock market.',
+      image: '/images/stocks.jpg',
+      link: '/stocks'
+    }
+  ];
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const features = [
+  const featuresData = [
     {
-      title: 'AI-Powered Insights',
-      description: 'Get personalized financial recommendations based on your goals and risk profile.',
-      icon: SparklesIcon,
-      color: 'bg-[#3B82F6]',
-      hoverColor: 'hover:bg-[#2563EB]',
+      icon: <ChartBar className="feature-icon" />,
+      title: 'Smart Analysis',
+      description: 'Get AI-powered insights and recommendations based on your financial goals and risk profile.'
     },
     {
-      title: 'Smart Investment Tracking',
-      description: 'Monitor your portfolio performance with real-time analytics and insights.',
-      icon: ChartBarIcon,
-      color: 'bg-[#10B981]',
-      hoverColor: 'hover:bg-[#059669]',
-    },
-    {
-      title: 'Financial Education',
-      description: 'Learn about investing, saving, and financial planning through interactive content.',
-      icon: AcademicCapIcon,
-      color: 'bg-[#8B5CF6]',
-      hoverColor: 'hover:bg-[#7C3AED]',
-    },
-    {
+      icon: <Shield className="feature-icon" />,
       title: 'Secure Platform',
-      description: 'Your financial data is protected with bank-level security measures.',
-      icon: ShieldCheckIcon,
-      color: 'bg-[#F59E0B]',
-      hoverColor: 'hover:bg-[#D97706]',
+      description: 'Your financial data is protected with bank-level security measures and encryption.'
     },
+    {
+      icon: <BookOpen className="feature-icon" />,
+      title: 'Learning Resources',
+      description: 'Access comprehensive educational content to build your financial knowledge and confidence.'
+    },
+    {
+      icon: <Calculator className="feature-icon" />,
+      title: 'Financial Tools',
+      description: 'Use our suite of calculators and tools to plan your investments and track your progress.'
+    },
+    {
+      icon: <Bell className="feature-icon" />,
+      title: 'Smart Notifications',
+      description: 'Stay updated with personalized alerts about market trends and investment opportunities.'
+    }
   ];
 
-  const stats = [
-    { label: 'Active Users', value: '10K+', color: 'text-[#3B82F6]' },
-    { label: 'Investment Options', value: '50+', color: 'text-[#10B981]' },
-    { label: 'Success Rate', value: '95%', color: 'text-[#8B5CF6]' },
-    { label: 'Customer Satisfaction', value: '98%', color: 'text-[#F59E0B]' },
+  // Data for pie chart
+  const pieData = [
+    { name: 'Stocks', value: 35 },
+    { name: 'Mutual Funds', value: 25 },
+    { name: 'SIP', value: 20 },
+    { name: 'Gold Bonds', value: 15 },
+    { name: 'Others', value: 5 }
   ];
+
+  // Data for bar chart
+  const barData = [
+    { month: 'Jan', returns: 4.2 },
+    { month: 'Feb', returns: 3.8 },
+    { month: 'Mar', returns: 5.1 },
+    { month: 'Apr', returns: 4.9 },
+    { month: 'May', returns: 5.5 },
+    { month: 'Jun', returns: 4.7 }
+  ];
+
+  const COLORS = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#EF4444'];
 
   return (
     <div className="home">
-      {/* Hero Section */}
-      <section className="hero">
-        <div className="hero-content">
-          <h1 className="hero-title">
-            Your AI-Powered Financial Assistant
-          </h1>
+      <main className="container">
+        <section className="hero">
+          <h1 className="hero-title">Welcome to FinancePro</h1>
           <p className="hero-description">
-            Get personalized financial advice, learn investment strategies, and explore government schemes
-            all in one place.
+            Your comprehensive platform for financial learning, investment strategies, and personal finance management.
           </p>
-          <div className="hero-buttons">
-            <Link to="/learning" className="btn-primary">
-              Start Learning
-            </Link>
-            <Link to="/funding" className="btn-secondary">
-              Explore Funding
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Features Section */}
-      <section className="features">
-        <h2 className="section-title">Why Choose FinAssist?</h2>
-        <div className="features-grid">
-          <div className="feature-card">
-            <ChartBarIcon className="feature-icon" />
-            <h3 className="feature-title">Smart Analysis</h3>
-            <p className="feature-description">
-              Get AI-powered insights and recommendations based on your financial goals and risk profile.
-            </p>
-          </div>
-          <div className="feature-card">
-            <BookOpenIcon className="feature-icon" />
-            <h3 className="feature-title">Learning Resources</h3>
-            <p className="feature-description">
-              Access comprehensive educational content to build your financial knowledge and confidence.
-            </p>
-          </div>
-          <div className="feature-card">
-            <CurrencyDollarIcon className="feature-icon" />
-            <h3 className="feature-title">Investment Options</h3>
-            <p className="feature-description">
-              Explore various investment opportunities including mutual funds, SIPs, stocks, and more.
-            </p>
-          </div>
-          <div className="feature-card">
-            <ClipboardDocumentListIcon className="feature-icon" />
-            <h3 className="feature-title">Government Schemes</h3>
-            <p className="feature-description">
-              Discover tax-saving and investment schemes offered by the government.
-            </p>
-          </div>
+        <div className="features">
+          {cardData.map((card, index) => (
+            <div 
+              key={index} 
+              className={`feature-card ${index % 2 === 0 ? '' : 'reverse'}`}
+            >
+              <div className="card-image-container">
+                <img 
+                  src={card.image} 
+                  alt={card.title} 
+                  className="card-image"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://via.placeholder.com/600x400?text=' + card.title.replace(/\s+/g, '+');
+                  }}
+                />
+              </div>
+              <div className="card-content">
+                <h2 className="card-title">{card.title}</h2>
+                <p className="card-description">{card.description}</p>
+                <Link to={card.link} className="btn-primary">
+                  Get Started
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
 
-      {/* Daily Tip Section */}
-      <section className="daily-tip">
-        <div className="daily-tip-content">
-          <h2 className="section-title">Daily Financial Tip</h2>
-          <div className="tip-card">
-            <p className="tip-text">
-              Start investing early and consistently. Even small amounts invested regularly can grow
-              significantly over time due to the power of compound interest.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-20 bg-white dark:bg-[#1F2937]">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className={`text-4xl font-bold ${stat.color} mb-2 group-hover:scale-110 transition-transform`}>
-                  {stat.value}
+        <section className="features-section">
+          <h2 className="section-title">Why Choose FinancePro?</h2>
+          <div className="features-grid">
+            {featuresData.map((feature, index) => (
+              <div key={index} className="feature-item">
+                <div className="feature-icon-wrapper">
+                  {feature.icon}
                 </div>
-                <div className="text-gray-600 dark:text-gray-300">
-                  {stat.label}
-                </div>
+                <h3 className="feature-item-title">{feature.title}</h3>
+                <p className="feature-item-description">{feature.description}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-[#3B82F6] text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-[2rem] font-semibold mb-4">
-            Ready to Start Your Financial Journey?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of users who are already making smarter financial decisions with our AI-powered platform.
-          </p>
-          <Link
-            to="/signup"
-            className="group inline-block px-8 py-3 bg-white text-[#3B82F6] rounded-lg font-semibold hover:bg-blue-50 transition-all duration-200 flex items-center gap-2 mx-auto"
-          >
-            Get Started Now
-            <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </section>
+        {/* New Charts Section */}
+        <section className="charts-section">
+          <h2 className="section-title">Investment Analytics</h2>
+          <div className="charts-grid">
+            <div className="chart-card">
+              <h3 className="chart-title">Portfolio Distribution</h3>
+              <div className="chart-container">
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      outerRadius={100}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="chart-card">
+              <h3 className="chart-title">Monthly Returns</h3>
+              <div className="chart-container">
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={barData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="returns" fill="#3B82F6" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
 
-      {/* Chatbot Button */}
-      <button 
-        className="fixed bottom-8 right-8 w-14 h-14 bg-[#3B82F6] text-white rounded-full shadow-lg hover:bg-[#2563EB] transition-all duration-200 flex items-center justify-center animate-pulse"
-        aria-label="Open chat"
-      >
-        <ChatBubbleLeftRightIcon className="w-6 h-6" />
-      </button>
+      <footer className="footer">
+        <div className="container">
+          <p>© 2024 FinancePro. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 };

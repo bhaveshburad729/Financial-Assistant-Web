@@ -20,28 +20,37 @@ import ProfilePage from './pages/Profile';
 function App() {
   return (
     <Router>
-      <div className="app-container">
-        <Navbar />
-        <div className="main-layout">
-          <Sidebar />
-          <main className="main-content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/learning" element={<Learning />} />
-              <Route path="/mutual-funds" element={<MutualFunds />} />
-              <Route path="/sips" element={<SIPs />} />
-              <Route path="/gold-bonds" element={<GoldBonds />} />
-              <Route path="/government-schemes" element={<GovernmentSchemes />} />
-              <Route path="/stocks" element={<Stocks />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/tax-calculator" element={<TaxCalculator />} />
-              <Route path="/document-compressor" element={<DocumentCompressor />} />
-              <Route path="/notifications" element={<NotificationsPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-            </Routes>
-          </main>
-        </div>
-      </div>
+      <Routes>
+        {/* Auth Routes - without Navbar and Sidebar */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* Main App Routes - with Navbar and Sidebar */}
+        <Route path="/*" element={
+          <div className="app-container">
+            <Navbar />
+            <div className="main-layout">
+              <Sidebar />
+              <main className="main-content">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/learning" element={<Learning />} />
+                  <Route path="/mutual-funds" element={<MutualFunds />} />
+                  <Route path="/sips" element={<SIPs />} />
+                  <Route path="/gold-bonds" element={<GoldBonds />} />
+                  <Route path="/government-schemes" element={<GovernmentSchemes />} />
+                  <Route path="/stocks" element={<Stocks />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/tax-calculator" element={<TaxCalculator />} />
+                  <Route path="/document-compressor" element={<DocumentCompressor />} />
+                  <Route path="/notifications" element={<NotificationsPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                </Routes>
+              </main>
+            </div>
+          </div>
+        } />
+      </Routes>
     </Router>
   );
 }

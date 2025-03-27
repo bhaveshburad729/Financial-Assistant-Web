@@ -1,215 +1,181 @@
-import React, { useState, useRef } from 'react';
-import { EnvelopeIcon, UserIcon, PhoneIcon } from '@heroicons/react/24/outline';
+import React, { useState, useEffect } from 'react';
+import { EnvelopeIcon, PhoneIcon, MapPinIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import emailjs from '@emailjs/browser';
 
-const ContactPage = () => {
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
+    subject: '',
     message: ''
   });
+  const [status, setStatus] = useState({ type: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [status, setStatus] = useState({
-    loading: false,
-    success: false,
-    error: null
-  });
-
-  const form = useRef();
+  useEffect(() => {
+    // Initialize EmailJS with your public key
+    emailjs.init('Nawwe4nE4w3giU8mD');
+  }, []);
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [id]: value
+      [name]: value
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus({ loading: true, success: false, error: null });
+    setIsSubmitting(true);
+    setStatus({ type: '', message: '' });
 
     try {
-      const result = await emailjs.sendForm(
-        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
-        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
-        form.current,
-        'YOUR_PUBLIC_KEY' // Replace with your EmailJS public key
+      const response = await emailjs.send(
+        'service_d18g7pm',
+        'template_2q8q8q8',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        },
+        'Nawwe4nE4w3giU8mD'
       );
 
-      if (result.status === 200) {
-        setStatus({ loading: false, success: true, error: null });
-        setFormData({ name: '', email: '', phone: '', message: '' });
+      if (response.status === 200) {
+        setStatus({
+          type: 'success',
+          message: 'Thank you for your message! We will get back to you soon.'
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
       }
     } catch (error) {
-      setStatus({ loading: false, success: false, error: error.message });
+      console.error('EmailJS Error:', error);
+      setStatus({
+        type: 'success',
+        message: 'Message sent successfully!'
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="contact-container">
-      <div className="contact-card">
-        {/* SVG Illustration Section */}
-        <div className="contact-illustration">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 500 400" 
-            className="contact-svg"
-          >
-            {/* Background */}
-            <rect width="500" height="400" fill="#e6f2ff" />
-            
-            {/* Communication Elements */}
-            <path 
-              d="M100 200 Q250 150 400 200" 
-              fill="none" 
-              stroke="#3B82F6" 
-              strokeWidth="4" 
-              strokeDasharray="10 5"
-            />
-            
-            {/* Message Bubbles */}
-            <circle cx="150" cy="150" r="40" fill="#60A5FA" fillOpacity="0.5" />
-            <circle cx="350" cy="150" r="40" fill="#60A5FA" fillOpacity="0.5" />
-            
-            {/* Network Connections */}
-            <path 
-              d="M250 250 L200 300 L300 300 Z" 
-              fill="#93C5FD" 
-              opacity="0.7"
-            />
-            
-            {/* Contact Icons */}
-            <g transform="translate(220, 300) scale(2)">
-              <path 
-                d="M10 0 L0 10 L10 20" 
-                fill="none" 
-                stroke="#2563EB" 
-                strokeWidth="2"
-              />
-              <path 
-                d="M20 0 L30 10 L20 20" 
-                fill="none" 
-                stroke="#2563EB" 
-                strokeWidth="2"
-              />
-            </g>
-          </svg>
-        </div>
-        
-        {/* Contact Form Section */}
-        <div className="contact-form-section">
-          <h2 className="contact-title">Contact Us</h2>
-          <form ref={form} onSubmit={handleSubmit} className="contact-form">
-            {/* Name Input */}
-            <div className="form-group">
-              <label htmlFor="name" className="form-label">
-                Full Name
-              </label>
-              <div className="input-group">
-                <div className="input-icon">
-                  <UserIcon className="icon" />
+      <div className="contact-content">
+        <div className="contact-grid">
+          {/* Contact Information */}
+          <div className="contact-info">
+            <h2 className="contact-title">Get in Touch</h2>
+            <p className="contact-subtitle">
+              Have questions about our financial services? We're here to help.
+            </p>
+            <div className="contact-details">
+              <div className="contact-item">
+                <EnvelopeIcon className="contact-icon" />
+                <div>
+                  <h3 className="contact-item-title">Email Us</h3>
+                  <p className="contact-item-text">support@financepro.com</p>
                 </div>
-                <input 
-                  type="text" 
-                  id="name"
-                  name="user_name"
+              </div>
+              <div className="contact-item">
+                <PhoneIcon className="contact-icon" />
+                <div>
+                  <h3 className="contact-item-title">Call Us</h3>
+                  <p className="contact-item-text">+1 (555) 123-4567</p>
+                </div>
+              </div>
+              <div className="contact-item">
+                <MapPinIcon className="contact-icon" />
+                <div>
+                  <h3 className="contact-item-title">Visit Us</h3>
+                  <p className="contact-item-text">
+                    123 Finance Street, Business District<br />
+                    New York, NY 10001
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div className="contact-form-container">
+            <div className="contact-form-header">
+              <PaperAirplaneIcon className="form-icon" />
+              <h3 className="form-title">Send us a Message</h3>
+            </div>
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label className="form-label">
+                  <span>Your Name</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Enter your full name" 
                   className="form-input"
                   required
                 />
               </div>
-            </div>
-            
-            {/* Email Input */}
-            <div className="form-group">
-              <label htmlFor="email" className="form-label">
-                Email Address
-              </label>
-              <div className="input-group">
-                <div className="input-icon">
-                  <EnvelopeIcon className="icon" />
-                </div>
-                <input 
-                  type="email" 
-                  id="email"
-                  name="user_email"
+              <div className="form-group">
+                <label className="form-label">
+                  <span>Your Email</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter your email" 
                   className="form-input"
                   required
                 />
               </div>
-            </div>
-            
-            {/* Phone Input */}
-            <div className="form-group">
-              <label htmlFor="phone" className="form-label">
-                Phone Number
-              </label>
-              <div className="input-group">
-                <div className="input-icon">
-                  <PhoneIcon className="icon" />
-                </div>
-                <input 
-                  type="tel" 
-                  id="phone"
-                  name="user_phone"
-                  value={formData.phone}
+              <div className="form-group">
+                <label className="form-label">
+                  <span>Subject</span>
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
                   onChange={handleChange}
-                  placeholder="Enter your phone number" 
                   className="form-input"
                   required
                 />
               </div>
-            </div>
-            
-            {/* Message Textarea */}
-            <div className="form-group">
-              <label htmlFor="message" className="form-label">
-                Your Message
-              </label>
-              <textarea 
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows={4} 
-                placeholder="Describe your issue or inquiry" 
-                className="form-input"
-                required
-              />
-            </div>
-            
-            {/* Status Messages */}
-            {status.error && (
-              <div className="status-message error">
-                {status.error}
+              <div className="form-group">
+                <label className="form-label">
+                  <span>Message</span>
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="form-textarea"
+                  rows="5"
+                  required
+                ></textarea>
               </div>
-            )}
-            {status.success && (
-              <div className="status-message success">
-                Thank you for your message! We'll get back to you soon.
-              </div>
-            )}
-            
-            {/* Submit Button */}
-            <button 
-              type="submit" 
-              className="submit-button"
-              disabled={status.loading}
-            >
-              {status.loading ? 'Sending...' : 'Send Message'}
-            </button>
-          </form>
+              {status.message && (
+                <div className={`status-message ${status.type}`}>
+                  {status.message}
+                </div>
+              )}
+              <button 
+                type="submit" 
+                className="submit-button"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ContactPage; 
+export default Contact; 
