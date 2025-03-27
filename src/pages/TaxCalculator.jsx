@@ -62,30 +62,84 @@ const TaxCalculator = () => {
 
     const taxableIncome = Math.max(totalIncome - totalDeductions, 0);
 
-    let taxAmount = 0;
-    if (taxableIncome <= 300000) {
-      taxAmount = 0;
-    } else if (taxableIncome <= 600000) {
-      taxAmount = (taxableIncome - 300000) * 0.05;
-    } else if (taxableIncome <= 900000) {
-      taxAmount = 15000 + (taxableIncome - 600000) * 0.10;
-    } else if (taxableIncome <= 1200000) {
-      taxAmount = 45000 + (taxableIncome - 900000) * 0.15;
-    } else if (taxableIncome <= 1500000) {
-      taxAmount = 90000 + (taxableIncome - 1200000) * 0.20;
-    } else {
-      taxAmount = 150000 + (taxableIncome - 1500000) * 0.30;
+    // Basic exemption based on age group
+    let basicExemption = 300000; // Default for general category
+    if (ageGroup === 'senior') {
+      basicExemption = 300000;
+    } else if (ageGroup === 'superSenior') {
+      basicExemption = 500000;
     }
 
-    const finalTax = taxAmount * 1.04;
+    // Calculate tax based on latest tax slabs (2024-25)
+    let taxAmount = 0;
+    let taxBreakdown = [];
+
+    if (taxableIncome <= basicExemption) {
+      taxAmount = 0;
+      taxBreakdown.push({
+        slab: `0 - ${basicExemption.toLocaleString()}`,
+        rate: '0%',
+        amount: 0
+      });
+    } else {
+      // 0% slab
+      taxBreakdown.push({
+        slab: `0 - ${basicExemption.toLocaleString()}`,
+        rate: '0%',
+        amount: 0
+      });
+
+      // 5% slab (300000 - 600000)
+      if (taxableIncome > 300000) {
+        const slabAmount = Math.min(taxableIncome - 300000, 300000);
+        const slabTax = slabAmount * 0.05;
+        taxAmount += slabTax;
+        taxBreakdown.push({
+          slab: '300,000 - 600,000',
+          rate: '5%',
+          amount: slabTax
+        });
+      }
+
+      // 20% slab (600000 - 900000)
+      if (taxableIncome > 600000) {
+        const slabAmount = Math.min(taxableIncome - 600000, 300000);
+        const slabTax = slabAmount * 0.20;
+        taxAmount += slabTax;
+        taxBreakdown.push({
+          slab: '600,000 - 900,000',
+          rate: '20%',
+          amount: slabTax
+        });
+      }
+
+      // 30% slab (above 900000)
+      if (taxableIncome > 900000) {
+        const slabAmount = taxableIncome - 900000;
+        const slabTax = slabAmount * 0.30;
+        taxAmount += slabTax;
+        taxBreakdown.push({
+          slab: 'Above 900,000',
+          rate: '30%',
+          amount: slabTax
+        });
+      }
+    }
+
+    // Calculate cess (4%)
+    const cess = taxAmount * 0.04;
+    const finalTax = taxAmount + cess;
 
     setTaxResults({
       totalIncome,
       totalDeductions,
+      basicExemption,
       taxableIncome,
       taxAmount: Math.round(taxAmount),
+      cess: Math.round(cess),
       finalTax: Math.round(finalTax),
-      effectiveTaxRate: ((finalTax / totalIncome) * 100).toFixed(2)
+      effectiveTaxRate: ((finalTax / totalIncome) * 100).toFixed(2),
+      taxBreakdown
     });
   };
 
