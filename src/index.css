@@ -817,7 +817,7 @@ body {
 
 .card-description {
   font-size: 1.125rem;
-  color: #6b7280;
+  color: #fdfeff;
   margin-bottom: 2rem;
   line-height: 1.6;
 }
@@ -1907,7 +1907,7 @@ body {
 
 .card-description {
   font-size: 0.875rem;
-  color: #6B7280;
+  color: #ffffff;
 }
 
 .dark .card-description {
@@ -2734,7 +2734,7 @@ body {
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
-  color: #4B5563;
+  color: #ffffff;
 }
 
 .guidance-icon {
