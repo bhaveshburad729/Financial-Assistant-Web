@@ -14,8 +14,6 @@ import GoldBonds from './pages/GoldBonds';
 import Stocks from './pages/Stocks';
 import GovernmentSchemes from './pages/GovernmentSchemes';
 import Contact from './pages/Contact';
-import TaxCalculator from './pages/TaxCalculator';
-import DocumentCompressor from './pages/DocumentCompressor';
 import NotificationsPage from './pages/Notifications';
 import ProfilePage from './pages/Profile';
 import Chatbot from './components/Chatbot';
@@ -49,8 +47,6 @@ function App() {
                   <Route path="/government-schemes" element={<GovernmentSchemes />} />
                   <Route path="/stocks" element={<Stocks />} />
                   <Route path="/contact" element={<Contact />} />
-                  <Route path="/tax-calculator" element={<TaxCalculator />} />
-                  <Route path="/document-compressor" element={<DocumentCompressor />} />
                   <Route path="/notifications" element={<NotificationsPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
                 </Routes>

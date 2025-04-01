@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   HomeIcon,
   AcademicCapIcon,
-  CalculatorIcon,
-  DocumentIcon,
   BellIcon,
-  PrinterIcon,
   ArrowLeftOnRectangleIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -14,18 +11,39 @@ import {
   UserIcon,
 } from '@heroicons/react/24/outline';
 
+const STORAGE_KEY = 'userProfileData';
+
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [profileData, setProfileData] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
   const location = useLocation();
+
+  // Load profile data from localStorage
+  useEffect(() => {
+    const loadProfileData = () => {
+      const savedData = localStorage.getItem(STORAGE_KEY);
+      const savedImage = localStorage.getItem(`${STORAGE_KEY}_image`);
+      
+      if (savedData) {
+        setProfileData(JSON.parse(savedData));
+      }
+      if (savedImage) {
+        setProfileImage(savedImage);
+      }
+    };
+
+    loadProfileData();
+    // Listen for storage changes from other components
+    window.addEventListener('storage', loadProfileData);
+    return () => window.removeEventListener('storage', loadProfileData);
+  }, []);
 
   const menuItems = [
     { path: '/', icon: HomeIcon, label: 'Home' },
     { path: '/learning', icon: AcademicCapIcon, label: 'Learning' },
-    { path: '/tax-calculator', icon: CalculatorIcon, label: 'Tax Calculator' },
-    { path: '/document-compressor', icon: DocumentIcon, label: 'Document Compressor' },
     { path: '/notifications', icon: BellIcon, label: 'Notifications' },
     { path: '/profile', icon: UserIcon, label: 'Profile' },
-    { path: '/reports', icon: PrinterIcon, label: 'Printable Reports' },
   ];
 
   const isActive = (path) => {
@@ -42,13 +60,17 @@ const Sidebar = () => {
       <div className="sidebar-header">
         <div className="sidebar-profile">
           <div className="profile-image">
-            <UserCircleIcon className="profile-icon" />
+            {profileImage ? (
+              <img src={profileImage} alt="Profile" className="profile-image" />
+            ) : (
+              <UserCircleIcon className="profile-icon" />
+            )}
           </div>
           {!isCollapsed && (
             <div className="profile-info">
-              <h3 className="profile-name">John Doe</h3>
-              <p className="profile-level">Intermediate Investor</p>
-              <p className="profile-investments">Total Investments: ₹5,00,000</p>
+              <h3 className="profile-name">{profileData?.fullName || 'User'}</h3>
+              <p className="profile-level">{profileData?.investmentExperience || 'Beginner'} Investor</p>
+              <p className="profile-investments">Total Investments: ₹{profileData?.totalInvestments?.toLocaleString() || '0'}</p>
             </div>
           )}
         </div>
