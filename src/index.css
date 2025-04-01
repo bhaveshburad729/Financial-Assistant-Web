@@ -1791,7 +1791,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  margin-left: 280px; /* Match sidebar width */
+  /* margin-left: 280px;  */
   transition: margin-left 0.3s ease;
 }
 
@@ -1911,7 +1911,7 @@ body {
 }
 
 .dark .card-description {
-  color: #9CA3AF;
+  color: white;
 }
 
 .card-body {
@@ -2536,7 +2536,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  margin-left: 280px; /* Match sidebar width */
+  /* margin-left: 280px;  */
   transition: margin-left 0.3s ease;
 }
 
@@ -2559,7 +2559,7 @@ body {
 
 /* Introduction Card */
 .introduction-card {
-  background: linear-gradient(to right, #EFF6FF, #DBEAFE);
+  background: linear-gradient(to right, #204f9b, #559f71);
 }
 
 /* Scheme Card */
@@ -2707,7 +2707,7 @@ body {
 
 /* Guidance Card */
 .guidance-card {
-  background: linear-gradient(to right, #ECFDF5, #D1FAE5);
+  background: linear-gradient(to right, #204f9b, #D1FAE5);
 }
 
 .guidance-grid {
