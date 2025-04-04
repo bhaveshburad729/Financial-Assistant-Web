@@ -10,6 +10,7 @@ import {
   UserCircleIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
+import { Home, BookOpen, DollarSign, Target } from 'lucide-react';
 
 const STORAGE_KEY = 'userProfileData';
 
@@ -89,6 +90,15 @@ const Sidebar = () => {
               </Link>
             </li>
           ))}
+          <li className="sidebar-item">
+            <Link
+              to="/goal-planner"
+              className={`sidebar-link ${isActive('/goal-planner') ? 'sidebar-link-active' : ''}`}
+            >
+              <Target className="sidebar-icon" />
+              {!isCollapsed && <span>Goal Planner</span>}
+            </Link>
+          </li>
         </ul>
       </nav>
 

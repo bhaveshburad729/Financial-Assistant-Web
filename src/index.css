@@ -1902,7 +1902,7 @@ body {
 }
 
 .dark .card-title {
-  color: #F9FAFB;
+  color: #000000;
 }
 
 .card-description {
@@ -4720,7 +4720,7 @@ body {
 }
 
 .dark .goal-title {
-  color: #e5e7eb;
+  color: #000000;
 }
 
 .goal-amount {

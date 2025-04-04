@@ -2,6 +2,8 @@ import React from 'react';
 import { MessageCircle, ChartBar, Shield, BookOpen, Calculator, Bell } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import Reminders from '../components/Reminders';
+import '../styles/reminders.css';
 
 const Home = () => {
   const cardData = [
@@ -132,7 +134,7 @@ const Home = () => {
           <h2 className="section-title">Investment Analytics</h2>
           <div className="charts-grid">
             <div className="chart-card">
-              <h3 className="chart-title">Portfolio Distribution</h3>
+              <h3 className="chart-title">Investment Distribution</h3>
               <div className="chart-container">
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
@@ -141,35 +143,22 @@ const Home = () => {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      outerRadius={100}
+                      outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                     >
                       {pieData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
                     <Tooltip />
-                    <Legend />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
             </div>
-            <div className="chart-card">
-              <h3 className="chart-title">Monthly Returns</h3>
-              <div className="chart-container">
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={barData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="returns" fill="#3B82F6" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
+
+            <Reminders />
           </div>
         </section>
       </main>

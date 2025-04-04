@@ -17,6 +17,7 @@ import Contact from './pages/Contact';
 import NotificationsPage from './pages/Notifications';
 import ProfilePage from './pages/Profile';
 import Chatbot from './components/Chatbot';
+import GoalPlanner from './pages/GoalPlanner';
 import './styles/App.css';
 import './styles/animations.css';
 import './styles/chatbot.css';
@@ -49,6 +50,7 @@ function App() {
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/notifications" element={<NotificationsPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/goal-planner" element={<GoalPlanner />} />
                 </Routes>
               </main>
             </div>
